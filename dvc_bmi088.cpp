@@ -209,7 +209,6 @@ void Class_BMI088::SetGyroSensitivity(void)
 
 /**
   * @brief  获取处理后的数据
-  * @param  data: 数据指针
   */
 void Class_BMI088::GetData(void)
 {
@@ -402,6 +401,7 @@ void Class_BMI088::Init(void)
     
     // 等待传感器稳定
     HAL_Delay(50);
+    
 }
 
 /**
@@ -432,7 +432,7 @@ uint8_t Class_BMI088::CheckConnection(void)
 void Class_BMI088::Calibrate(uint16_t sample_count)
 {
     float sum_gx = 0.0f, sum_gy = 0.0f, sum_gz = 0.0f;
-    float sum_ax = 0.0f, sum_ay = 0.0f, sum_az = 0.0f;
+//    float sum_ax = 0.0f, sum_ay = 0.0f, sum_az = 0.0f;
 
     for (uint16_t i = 0; i < sample_count; i++) {
 
@@ -442,9 +442,9 @@ void Class_BMI088::Calibrate(uint16_t sample_count)
         sum_gy += Data.gyro_y;
         sum_gz += Data.gyro_z;
         
-        sum_ax += Data.acc_x;
-        sum_ay += Data.acc_y;
-        sum_az += Data.acc_z;
+        // sum_ax += Data.acc_x;
+        // sum_ay += Data.acc_y;
+        // sum_az += Data.acc_z;
         
         HAL_Delay(2);  // 2ms间隔
     }
@@ -453,15 +453,13 @@ void Class_BMI088::Calibrate(uint16_t sample_count)
     gyro_offset_y = sum_gy / sample_count;
     gyro_offset_z = sum_gz / sample_count;
     
-    acc_offset_x = sum_ax / sample_count;
-    acc_offset_y = sum_ay / sample_count;
-    acc_offset_z = sum_az / sample_count - 9.80665f;
+    // acc_offset_x = sum_ax / sample_count;
+    // acc_offset_y = sum_ay / sample_count;
+    // acc_offset_z = sum_az / sample_count - 9.80665f;
 }
 
 /**
   * @brief  bmi088数据回调函数
-  * 
-  * 
   */
 void Class_BMI088::TIM_Calculate_PeriodElapsedCallback()
 {
